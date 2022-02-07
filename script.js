@@ -1,44 +1,62 @@
 //test area
-let numOneArr = [7,0,3];
-let numTwoArr = [1,1];
-let operator = 'divide';
-//
+userInput = [0];
+operationInput = '';
+temp = [0];
 
 //FUNCTIONS
+function operate (userInput, operationInput, temp) {
+    let numOne = parseFloat(temp.join(''));
+    console.log(numOne);
+    let numTwo = parseFloat(userInput.join(''));
+    console.log(numTwo);
+
+    console.log(operationInput);
+
+    if (operationInput === '+') {
+        add(numOne, numTwo);
+    } else if (operationInput === '-') {
+        subtract(numOne, numTwo);
+    } else if (operationInput === '*') {
+        multiply(numOne, numTwo);
+    } else if (operationInput === '/') {
+        divide(numOne, numTwo);
+    }
+}
+
 function add (numOne, numTwo) {
     let answer = numOne + numTwo;
-    console.log(`Answer: ${answer}`);
-    numOne = answer;
+    console.log(answer);
+    userInput = [answer];
 }
 
 function subtract(numOne, numTwo) {
     let answer = numOne - numTwo;
     console.log(`Answer: ${answer}`);
-    numOne = answer;
+    userInput = [answer];
 }
 
 function multiply(numOne, numTwo) {
     let answer = numOne * numTwo;
     console.log(`Answer: ${answer}`);
-    numOne = answer;
+    userInput = [answer];
 }
 
 function divide (numOne, numTwo) {
     let answer = numOne / numTwo;
+
+    if (answer == 'Infinity') {
+        answer = null;
+        console.log('ERR: DIV BY 0');
+        resetValues();
+    }
     console.log(`Answer: ${answer}`);
-    numOne = answer;
+    userInput = [answer];
 }
 
-function operate (numOne, operation, numTwo ){
-    if (operation === '+') add();
-    if (operation === '-') subtract();
-    if (operation === '*') multiply();
-    if (operation === '/') divide();
-}
-
-
-function getId (clicked_id) {
-   return clicked_id;
+function resetValues () {
+    userInput= [0];
+    operationInput = '';
+    temp = [0];
 }
 
 //EVENT HANDLERS
@@ -48,7 +66,7 @@ const numberButtons = document.querySelectorAll('.number');
 numberButtons.forEach(number => number.addEventListener('click',() => {
     const numberId = number.id;
     console.log(numberId);
-    numOneArr.push(numberId);
+    userInput.push(numberId);
 } ))
 
 // operation buttons
@@ -56,7 +74,9 @@ const operationButtons = document.querySelectorAll('.operation');
 operationButtons.forEach(operation => operation.addEventListener('click', () => {
     const operationId = operation.id;
     console.log(operationId); 
-    operation = operationId;
+    operationInput= operationId;
+    temp = userInput;
+    userInput = [];
 }))
 
 // AC
@@ -65,35 +85,21 @@ const allClearButton = document.querySelector('#AC');
 allClearButton.addEventListener('click', () => {
     const allClearId = allClearButton.id;
     console.log(allClearId);
-    numOneArr = [];
-    numTwoArr= [];
-    operation = null;
+    resetValues();
 });
 
 //decimal
-const decimalButton = document.querySelector('#decimal');
+const decimalButton = document.querySelector('#d');
 
 decimalButton.addEventListener('click', () => {
     const decimalId = decimalButton.id;
     console.log(decimalId);
 })
 
-function operate (numOneArr, operator, numTwoArr) {
-    let numOne = parseFloat(numOneArr.join(''));
-    console.log(numOne);
-    let numTwo = parseFloat(numTwoArr.join(''));
-    console.log(numTwo);
-
-    if (operator === 'add') {
-        add(numOne, numTwo);
-    } else if (operator === 'subtract') {
-        subtract(numOne, numTwo);
-    } else if (operator === 'multiply') {
-        multiply(numOne, numTwo);
-    } else if (operator === 'divide') {
-        divide(numOne, numTwo);
-    }
-
-}
-
-operate(numOneArr, operator, numTwoArr);
+// equal button
+const equalButton = document.querySelector('.equals');
+equalButton.addEventListener('click', () => {
+    const equalsId = equalButton.id;
+    console.log(equalsId);
+    operate(userInput, operationInput, temp);
+})
