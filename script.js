@@ -73,12 +73,14 @@ function resetValues () {
 const numberButtons = document.querySelectorAll('.number');
 
 numberButtons.forEach(number => number.addEventListener('click',() => {
+   
     equalsTrigger = false;
     if (screenTrigger === true) {
         screenTrigger = false;
-        resetValues();
+        userInput=[0];
         updateDisplayText(0);
     }
+    
 
     const numberId = number.id;
     console.log(numberId);
