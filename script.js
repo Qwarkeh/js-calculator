@@ -4,6 +4,7 @@ let operationInput = '';
 let temp = [0];
 let screenTrigger = false;
 let equalsTrigger = false;
+let operationsTrigger = false;
 
 //FUNCTIONS
 function operate (userInput, operationInput, temp) {
@@ -63,7 +64,6 @@ function divide (numOne, numTwo) {
 
 function resetValues () {
     userInput= [0];
-    //operationInput = '';
     temp = [0];
     updateDisplayText(0);
 }
@@ -73,6 +73,7 @@ function resetValues () {
 const numberButtons = document.querySelectorAll('.number');
 
 numberButtons.forEach(number => number.addEventListener('click',() => {
+    operationsTrigger = false;
    
     equalsTrigger = false;
     if (screenTrigger === true) {
@@ -80,7 +81,6 @@ numberButtons.forEach(number => number.addEventListener('click',() => {
         userInput=[0];
         updateDisplayText(0);
     }
-    
 
     const numberId = number.id;
     console.log(numberId);
@@ -97,14 +97,20 @@ numberButtons.forEach(number => number.addEventListener('click',() => {
 // operation buttons
 const operationButtons = document.querySelectorAll('.operation');
 operationButtons.forEach(operation => operation.addEventListener('click', () => {
-    //equalsTrigger = false;
-    const operationId = operation.id;
-    console.log(operationId); 
-    operationInput= operationId;
+    if (operationsTrigger === true) {
+        updateDisplayText(operationInput);
+        return;
+    } else {
+        const operationId = operation.id;
+        console.log(operationId); 
+        operationInput= operationId;
 
-    updateDisplayText(operationInput);
-    temp = userInput;   
-    userInput = [0];
+        updateDisplayText(operationInput);
+        temp = userInput;   
+        userInput = [0];
+
+        operationsTrigger = true;
+    }
 }))
 
 // AC
@@ -136,7 +142,6 @@ equalButton.addEventListener('click', () => {
         operate(userInput, operationInput, temp);
         screenTrigger = true;
         equalsTrigger = true;
-        //operationInput = '';
     }
 })
 
