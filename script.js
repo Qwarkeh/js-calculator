@@ -42,15 +42,13 @@ function multiply(numOne, numTwo) {
 }
 
 function divide (numOne, numTwo) {
-    let answer = numOne / numTwo;
-
-    if (answer == 'Infinity') {
-        answer = null;
+    if (numTwo === 0) {
         console.log('ERR: DIV BY 0');
         resetValues();
+    } else {
+        let answer = numOne / numTwo;
+        userInput = [answer];
     }
-    console.log(`Answer: ${answer}`);
-    userInput = [answer];
 }
 
 function resetValues () {
