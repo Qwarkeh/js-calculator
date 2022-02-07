@@ -1,22 +1,29 @@
-function add () {
+//test area
+let numOneArr = [7,0,3];
+let numTwoArr = [1,1];
+let operator = 'divide';
+//
+
+//FUNCTIONS
+function add (numOne, numTwo) {
     let answer = numOne + numTwo;
     console.log(`Answer: ${answer}`);
     numOne = answer;
 }
 
-function subtract() {
+function subtract(numOne, numTwo) {
     let answer = numOne - numTwo;
     console.log(`Answer: ${answer}`);
     numOne = answer;
 }
 
-function multiply() {
+function multiply(numOne, numTwo) {
     let answer = numOne * numTwo;
     console.log(`Answer: ${answer}`);
     numOne = answer;
 }
 
-function divide () {
+function divide (numOne, numTwo) {
     let answer = numOne / numTwo;
     console.log(`Answer: ${answer}`);
     numOne = answer;
@@ -29,53 +36,64 @@ function operate (numOne, operation, numTwo ){
     if (operation === '/') divide();
 }
 
-//THREE EVENT HANDLERS, ONE FOR EACH BUTTON
-//listen for first number press
-//listen for operation press
-//listen for second number
-//run the above values through operate();
 
 function getId (clicked_id) {
    return clicked_id;
 }
 
-function handlers () {
+//EVENT HANDLERS
+// number buttons
+const numberButtons = document.querySelectorAll('.number');
 
-    // number buttons
-    const numberButtons = document.querySelectorAll('.number');
+numberButtons.forEach(number => number.addEventListener('click',() => {
+    const numberId = number.id;
+    console.log(numberId);
+    numOneArr.push(numberId);
+} ))
 
-    numberButtons.forEach(number => number.addEventListener('click',() => {
-        const numberId = number.id;
-        console.log(numberId);
-    } ))
+// operation buttons
+const operationButtons = document.querySelectorAll('.operation');
+operationButtons.forEach(operation => operation.addEventListener('click', () => {
+    const operationId = operation.id;
+    console.log(operationId); 
+    operation = operationId;
+}))
 
-    // operation buttons
-    const operationButtons = document.querySelectorAll('.operation');
-    operationButtons.forEach(operation => operation.addEventListener('click', () => {
-       const operationId = operation.id;
-       console.log(operationId); 
-    }))
+// AC
+const allClearButton = document.querySelector('#AC');
 
-    // AC
-    const allClearButton = document.querySelector('#AC');
+allClearButton.addEventListener('click', () => {
+    const allClearId = allClearButton.id;
+    console.log(allClearId);
+    numOneArr = [];
+    numTwoArr= [];
+    operation = null;
+});
 
-    allClearButton.addEventListener('click', () => {
-        const allClearId = allClearButton.id;
-        console.log(allClearId);
-    });
+//decimal
+const decimalButton = document.querySelector('#decimal');
 
-    //decimal
-    const decimalButton = document.querySelector('#decimal');
-    
-    decimalButton.addEventListener('click', () => {
-        const decimalId = decimalButton.id;
-        console.log(decimalId);
-    })
+decimalButton.addEventListener('click', () => {
+    const decimalId = decimalButton.id;
+    console.log(decimalId);
+})
+
+function operate (numOneArr, operator, numTwoArr) {
+    let numOne = parseFloat(numOneArr.join(''));
+    console.log(numOne);
+    let numTwo = parseFloat(numTwoArr.join(''));
+    console.log(numTwo);
+
+    if (operator === 'add') {
+        add(numOne, numTwo);
+    } else if (operator === 'subtract') {
+        subtract(numOne, numTwo);
+    } else if (operator === 'multiply') {
+        multiply(numOne, numTwo);
+    } else if (operator === 'divide') {
+        divide(numOne, numTwo);
+    }
+
 }
 
-//test area
-let numOne = 2;
-let operation = '/';
-let numTwo = 3;
- 
-handlers();
+operate(numOneArr, operator, numTwoArr);

@@ -3,6 +3,7 @@ body {
     align-items: center;
     justify-content: center;
     height: 100vh;
+    background-color: darkgray;
 
 }
 
@@ -18,6 +19,7 @@ body {
 
 .screen {
     border-bottom: solid;
+    background-color: white;
     display: flex;
     justify-content: end;
     align-items: center;
