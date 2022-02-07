@@ -1,7 +1,9 @@
 //test area
-userInput = [0];
-operationInput = '';
-temp = [0];
+let userInput = [0];
+let operationInput = '';
+let temp = [0];
+let screenTrigger = false;
+let equalsTrigger = false;
 
 //FUNCTIONS
 function operate (userInput, operationInput, temp) {
@@ -20,24 +22,30 @@ function operate (userInput, operationInput, temp) {
         multiply(numOne, numTwo);
     } else if (operationInput === '/') {
         divide(numOne, numTwo);
+    } else {
+        updateDisplayText(numTwo);
     }
 }
 
 function add (numOne, numTwo) {
     let answer = numOne + numTwo;
     console.log(answer);
+    updateDisplayText(answer);
     userInput = [answer];
 }
 
 function subtract(numOne, numTwo) {
     let answer = numOne - numTwo;
     console.log(`Answer: ${answer}`);
+    updateDisplayText(answer);
+
     userInput = [answer];
 }
 
 function multiply(numOne, numTwo) {
     let answer = numOne * numTwo;
     console.log(`Answer: ${answer}`);
+    updateDisplayText(answer);
     userInput = [answer];
 }
 
@@ -45,16 +53,19 @@ function divide (numOne, numTwo) {
     if (numTwo === 0) {
         console.log('ERR: DIV BY 0');
         resetValues();
+        updateDisplayText('ERR: DIV BY 0');
     } else {
         let answer = numOne / numTwo;
+        updateDisplayText(answer);
         userInput = [answer];
     }
 }
 
 function resetValues () {
     userInput= [0];
-    operationInput = '';
+    //operationInput = '';
     temp = [0];
+    updateDisplayText(0);
 }
 
 //EVENT HANDLERS
@@ -62,19 +73,36 @@ function resetValues () {
 const numberButtons = document.querySelectorAll('.number');
 
 numberButtons.forEach(number => number.addEventListener('click',() => {
+    equalsTrigger = false;
+    if (screenTrigger === true) {
+        screenTrigger = false;
+        resetValues();
+        updateDisplayText(0);
+    }
+
     const numberId = number.id;
     console.log(numberId);
     userInput.push(numberId);
+
+    
+    if (userInput[0] === 0) {
+        userInput.shift();
+    }
+
+    updateDisplayText(userInput.join(''));
 } ))
 
 // operation buttons
 const operationButtons = document.querySelectorAll('.operation');
 operationButtons.forEach(operation => operation.addEventListener('click', () => {
+    //equalsTrigger = false;
     const operationId = operation.id;
     console.log(operationId); 
     operationInput= operationId;
-    temp = userInput;
-    userInput = [];
+
+    updateDisplayText(operationInput);
+    temp = userInput;   
+    userInput = [0];
 }))
 
 // AC
@@ -97,7 +125,22 @@ decimalButton.addEventListener('click', () => {
 // equal button
 const equalButton = document.querySelector('.equals');
 equalButton.addEventListener('click', () => {
-    const equalsId = equalButton.id;
-    console.log(equalsId);
-    operate(userInput, operationInput, temp);
+
+    if (equalsTrigger === true) {
+        return;
+    } else {
+        const equalsId = equalButton.id;
+        console.log(equalsId);
+        operate(userInput, operationInput, temp);
+        screenTrigger = true;
+        equalsTrigger = true;
+        //operationInput = '';
+    }
 })
+
+//DISPLAY functions
+
+function updateDisplayText(answer) {
+    const display = document.querySelector('.screen');
+    display.textContent = answer;
+}

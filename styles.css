@@ -24,6 +24,7 @@ body {
     justify-content: end;
     align-items: center;
     height: 45px;
+    padding: 5px;
 }
 
 .keys {
