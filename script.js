@@ -5,6 +5,9 @@ let temp = [0];
 let screenTrigger = false;
 let equalsTrigger = false;
 let operationsTrigger = false;
+let decimalTrigger = false;
+let negativeTrigger = false;
+let chainingTrigger = false;
 
 //FUNCTIONS
 function operate (userInput, operationInput, temp) {
@@ -98,18 +101,41 @@ numberButtons.forEach(number => number.addEventListener('click',() => {
 const operationButtons = document.querySelectorAll('.operation');
 operationButtons.forEach(operation => operation.addEventListener('click', () => {
     if (operationsTrigger === true) {
-        updateDisplayText(operationInput);
         return;
     } else {
-        const operationId = operation.id;
-        console.log(operationId); 
-        operationInput= operationId;
+        
+        if (chainingTrigger === false) {
+            const operationId = operation.id;
+            console.log(operationId); 
+            operationInput= operationId;
 
-        updateDisplayText(operationInput);
-        temp = userInput;   
-        userInput = [0];
+            temp = userInput;   
+            userInput = [0];
 
-        operationsTrigger = true;
+            operationsTrigger = true;
+
+            chainingTrigger = true;
+        } else {
+            //EQUALS
+            const equalsId = equalButton.id;
+            console.log(equalsId);
+            operate(userInput, operationInput, temp);
+            screenTrigger = true;
+            equalsTrigger = true;
+
+            //END EQUALS
+
+            const operationId = operation.id;
+            console.log(operationId); 
+            operationInput= operationId;
+
+            temp = userInput;   
+            userInput = [0];
+
+            operationsTrigger = true;
+
+        }
+
     }
 }))
 
@@ -120,6 +146,8 @@ allClearButton.addEventListener('click', () => {
     const allClearId = allClearButton.id;
     console.log(allClearId);
     resetValues();
+
+    chainingTrigger = false;
 });
 
 //decimal
@@ -142,6 +170,7 @@ equalButton.addEventListener('click', () => {
         operate(userInput, operationInput, temp);
         screenTrigger = true;
         equalsTrigger = true;
+        chainingTrigger = false;
     }
 })
 
