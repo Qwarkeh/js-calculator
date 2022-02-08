@@ -205,8 +205,6 @@ equalButton.addEventListener('click', () => {
 const negativeToggleButton = document.querySelector('#negative');
 negativeToggleButton.addEventListener('click', () => {
     if (userInput[0] === 0){
-        console.log('Line 200 userInput: ' + userInput)
-        console.log('Line 201 temp: ') + temp;
         return;
         
     } else if (userInput[0] < 0) {
@@ -219,13 +217,24 @@ negativeToggleButton.addEventListener('click', () => {
     } else if(userInput[0] === '-'){
         console.log('Line 204 userInput: ' + userInput)
         console.log('Line 205 temp: ') + temp;
-        
-        userInput.shift('-');
+    
+        if (userInput[1] === '.') {
+            userInput.shift('-');
+            userInput.unshift('0');
+        } else {
+            userInput.shift('-');
+        }
         updateDisplayText(userInput.join(''));
 
-    } else {
-        console.log('Line 209 userInput: ' + userInput)
-        console.log('Line 210 temp: ') + temp;
+    } else if (userInput[0] === '.') {
+        userInput.unshift('0');
+        userInput.unshift('-')
+        updateDisplayText(userInput.join(''));
+    }
+    
+    else{
+       // console.log('Line 209 userInput: ' + userInput)
+       // console.log('Line 210 temp: ') + temp;
 
         userInput.unshift('-') 
         updateDisplayText(userInput.join(''));
