@@ -83,6 +83,7 @@ function updateDisplayText(answer) {
 }
 
 //EVENT HANDLERS
+
 // number buttons
 const numberButtons = document.querySelectorAll('.number');
 numberButtons.forEach(number => number.addEventListener('click',() => {
@@ -99,11 +100,15 @@ numberButtons.forEach(number => number.addEventListener('click',() => {
     userInput.push(numberId);
     
     if (userInput[0] == 0) {
-        console.log('before userInput shift in button event handler: ' + userInput);
-        console.log('I have shifted userInput in the button event handler');
         userInput.shift();
     }
-    updateDisplayText(userInput.join(''));
+
+    if (userInput[0] === '.'){
+        updateDisplayText('0' + userInput.join(''));
+    } else {
+        updateDisplayText(userInput.join(''));
+    }
+
 } ))
 
 // operation buttons
@@ -119,7 +124,7 @@ operationButtons.forEach(operation => operation.addEventListener('click', () => 
 
             temp = userInput;   
 
-            console.log('line 123 triggering')
+            //console.log('line 123 triggering')
             userInput = [0];
 
             chainingTrigger = true;
@@ -138,7 +143,7 @@ operationButtons.forEach(operation => operation.addEventListener('click', () => 
 
 
             temp = userInput;   
-            console.log('line 142 triggering');
+            //console.log('line 142 triggering');
             userInput = [0];
         }
     }
@@ -172,6 +177,7 @@ decimalButton.addEventListener('click', () => {
         const decimalId = decimalButton.id;
 
         userInput.push('.');
+        updateDisplayText(userInput.join(''));
             
         decimalTrigger = true;
     }
@@ -194,4 +200,34 @@ equalButton.addEventListener('click', () => {
         chainingTrigger = false;
         decimalTrigger = false;
     }
+})
+
+const negativeToggleButton = document.querySelector('#negative');
+negativeToggleButton.addEventListener('click', () => {
+    if (userInput[0] === 0){
+        console.log('Line 200 userInput: ' + userInput)
+        console.log('Line 201 temp: ') + temp;
+        return;
+        
+    } else if (userInput[0] < 0) {
+        let negativeNumber = userInput[0];
+        let positiveNumber = Math.abs(negativeNumber);
+        userInput[0] = positiveNumber;
+        updateDisplayText(userInput);
+        
+
+    } else if(userInput[0] === '-'){
+        console.log('Line 204 userInput: ' + userInput)
+        console.log('Line 205 temp: ') + temp;
+        
+        userInput.shift('-');
+        updateDisplayText(userInput.join(''));
+
+    } else {
+        console.log('Line 209 userInput: ' + userInput)
+        console.log('Line 210 temp: ') + temp;
+
+        userInput.unshift('-') 
+        updateDisplayText(userInput.join(''));
+    } 
 })
