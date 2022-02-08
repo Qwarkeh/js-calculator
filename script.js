@@ -14,6 +14,7 @@ let chainingTrigger = false;
 function operate (userInput, operationInput, temp) {
     let numOne = parseFloat(temp.join(''));
     console.log(numOne);
+
     let numTwo = parseFloat(userInput.join(''));
     console.log(numTwo);
 
@@ -86,7 +87,7 @@ function updateDisplayText(answer) {
 const numberButtons = document.querySelectorAll('.number');
 numberButtons.forEach(number => number.addEventListener('click',() => {
     operationsTrigger = false;
-   
+
     equalsTrigger = false;
     if (screenTrigger === true) {
         screenTrigger = false;
@@ -95,10 +96,11 @@ numberButtons.forEach(number => number.addEventListener('click',() => {
     }
 
     const numberId = number.id;
-    console.log(numberId);
     userInput.push(numberId);
     
-    if (userInput[0] === 0) {
+    if (userInput[0] == 0) {
+        console.log('before userInput shift in button event handler: ' + userInput);
+        console.log('I have shifted userInput in the button event handler');
         userInput.shift();
     }
     updateDisplayText(userInput.join(''));
@@ -116,9 +118,10 @@ operationButtons.forEach(operation => operation.addEventListener('click', () => 
             operationInput= operationId;
 
             temp = userInput;   
+
+            console.log('line 123 triggering')
             userInput = [0];
 
-            //operationsTrigger = true;
             chainingTrigger = true;
         } else {
             //EQUALS
@@ -133,10 +136,10 @@ operationButtons.forEach(operation => operation.addEventListener('click', () => 
             console.log(operationId); 
             operationInput= operationId;
 
-            temp = userInput;   
-            userInput = [0];
 
-            //operationsTrigger = true;
+            temp = userInput;   
+            console.log('line 142 triggering');
+            userInput = [0];
         }
     }
     operationsTrigger = true;
@@ -157,13 +160,19 @@ allClearButton.addEventListener('click', () => {
 //decimal
 const decimalButton = document.querySelector('#d');
 decimalButton.addEventListener('click', () => {
+
+    if (screenTrigger === true) {
+        userInput = [0];
+        screenTrigger = false;
+    }
+
     if (decimalTrigger === true) {
         return;
     } else {
         const decimalId = decimalButton.id;
-        console.log(decimalId);
 
         userInput.push('.');
+            
         decimalTrigger = true;
     }
 })
@@ -177,6 +186,7 @@ equalButton.addEventListener('click', () => {
     } else {
         const equalsId = equalButton.id;
         console.log(equalsId);
+
         operate(userInput, operationInput, temp);
 
         screenTrigger = true;
