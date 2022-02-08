@@ -2,6 +2,7 @@
 let userInput = [0];
 let operationInput = '';
 let temp = [0];
+
 let screenTrigger = false;
 let equalsTrigger = false;
 let operationsTrigger = false;
@@ -31,25 +32,29 @@ function operate (userInput, operationInput, temp) {
     }
 }
 
+function decimalCheck(answer) {
+    if (answer.toString().includes('.')){
+        console.log('has a decimal.')
+        updateDisplayText(answer.toFixed(3));
+    } else updateDisplayText(answer);
+
+}
+
 function add (numOne, numTwo) {
     let answer = numOne + numTwo;
-    console.log(answer);
-    updateDisplayText(answer);
+    decimalCheck(answer);
     userInput = [answer];
 }
 
 function subtract(numOne, numTwo) {
     let answer = numOne - numTwo;
-    console.log(`Answer: ${answer}`);
-    updateDisplayText(answer);
-
+    decimalCheck(answer);
     userInput = [answer];
 }
 
 function multiply(numOne, numTwo) {
     let answer = numOne * numTwo;
-    console.log(`Answer: ${answer}`);
-    updateDisplayText(answer);
+    decimalCheck(answer);
     userInput = [answer];
 }
 
@@ -60,7 +65,7 @@ function divide (numOne, numTwo) {
         updateDisplayText('ERR: DIV BY 0');
     } else {
         let answer = numOne / numTwo;
-        updateDisplayText(answer);
+        decimalCheck(answer);
         userInput = [answer];
     }
 }
@@ -71,10 +76,14 @@ function resetValues () {
     updateDisplayText(0);
 }
 
+function updateDisplayText(answer) {
+    const display = document.querySelector('.screen');
+    display.textContent = answer;
+}
+
 //EVENT HANDLERS
 // number buttons
 const numberButtons = document.querySelectorAll('.number');
-
 numberButtons.forEach(number => number.addEventListener('click',() => {
     operationsTrigger = false;
    
@@ -88,12 +97,10 @@ numberButtons.forEach(number => number.addEventListener('click',() => {
     const numberId = number.id;
     console.log(numberId);
     userInput.push(numberId);
-
     
     if (userInput[0] === 0) {
         userInput.shift();
     }
-
     updateDisplayText(userInput.join(''));
 } ))
 
@@ -103,7 +110,6 @@ operationButtons.forEach(operation => operation.addEventListener('click', () => 
     if (operationsTrigger === true) {
         return;
     } else {
-        
         if (chainingTrigger === false) {
             const operationId = operation.id;
             console.log(operationId); 
@@ -112,8 +118,7 @@ operationButtons.forEach(operation => operation.addEventListener('click', () => 
             temp = userInput;   
             userInput = [0];
 
-            operationsTrigger = true;
-
+            //operationsTrigger = true;
             chainingTrigger = true;
         } else {
             //EQUALS
@@ -124,7 +129,6 @@ operationButtons.forEach(operation => operation.addEventListener('click', () => 
             equalsTrigger = true;
 
             //END EQUALS
-
             const operationId = operation.id;
             console.log(operationId); 
             operationInput= operationId;
@@ -132,30 +136,36 @@ operationButtons.forEach(operation => operation.addEventListener('click', () => 
             temp = userInput;   
             userInput = [0];
 
-            operationsTrigger = true;
-
+            //operationsTrigger = true;
         }
-
     }
+    operationsTrigger = true;
+    decimalTrigger = false;
 }))
 
 // AC
 const allClearButton = document.querySelector('#AC');
-
 allClearButton.addEventListener('click', () => {
     const allClearId = allClearButton.id;
     console.log(allClearId);
     resetValues();
 
     chainingTrigger = false;
+    decimalTrigger = false;
 });
 
 //decimal
 const decimalButton = document.querySelector('#d');
-
 decimalButton.addEventListener('click', () => {
-    const decimalId = decimalButton.id;
-    console.log(decimalId);
+    if (decimalTrigger === true) {
+        return;
+    } else {
+        const decimalId = decimalButton.id;
+        console.log(decimalId);
+
+        userInput.push('.');
+        decimalTrigger = true;
+    }
 })
 
 // equal button
@@ -168,15 +178,10 @@ equalButton.addEventListener('click', () => {
         const equalsId = equalButton.id;
         console.log(equalsId);
         operate(userInput, operationInput, temp);
+
         screenTrigger = true;
         equalsTrigger = true;
         chainingTrigger = false;
+        decimalTrigger = false;
     }
 })
-
-//DISPLAY functions
-
-function updateDisplayText(answer) {
-    const display = document.querySelector('.screen');
-    display.textContent = answer;
-}
