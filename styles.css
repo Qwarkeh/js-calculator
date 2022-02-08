@@ -20,7 +20,7 @@ body {
 
 .screen {
     border-bottom: solid;
-    background-color: white;
+    background-color: lightgrey; 
     display: flex;
     justify-content: end;
     align-items: center;
@@ -31,7 +31,7 @@ body {
 
 .keys {
     display: flex;
-    background-color: lightgray;
+    background-color: gray;
 }
 
 .inner-column {
@@ -51,12 +51,30 @@ body {
     flex-direction: column;
 }
 
-.zero,
+.zero {
+    width: 160px;
+}
+
 #AC {
+    background-color: rgb(248, 152, 152);
     width: 160px;
 }
 
 .blank {
     height: 80px;
     width: 80px;
+}
+
+.number,
+#d {
+    background-color: lightblue;
+}
+
+.operation,
+#equal {
+    background-color: yellow;
+}
+
+#negative {
+    background-color: lightgreen;
 }

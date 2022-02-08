@@ -13,12 +13,7 @@ let chainingTrigger = false;
 //FUNCTIONS
 function operate (userInput, operationInput, temp) {
     let numOne = parseFloat(temp.join(''));
-    console.log(numOne);
-
     let numTwo = parseFloat(userInput.join(''));
-    console.log(numTwo);
-
-    console.log(operationInput);
 
     if (operationInput === '+') {
         add(numOne, numTwo);
@@ -35,7 +30,6 @@ function operate (userInput, operationInput, temp) {
 
 function decimalCheck(answer) {
     if (answer.toString().includes('.')){
-        console.log('has a decimal.')
         updateDisplayText(answer.toFixed(3));
     } else updateDisplayText(answer);
 
@@ -61,9 +55,8 @@ function multiply(numOne, numTwo) {
 
 function divide (numOne, numTwo) {
     if (numTwo === 0) {
-        console.log('ERR: DIV BY 0');
         resetValues();
-        updateDisplayText('ERR: DIV BY 0');
+        updateDisplayText('NO.');
     } else {
         let answer = numOne / numTwo;
         decimalCheck(answer);
@@ -123,27 +116,22 @@ operationButtons.forEach(operation => operation.addEventListener('click', () => 
             operationInput= operationId;
 
             temp = userInput;   
-
-            //console.log('line 123 triggering')
             userInput = [0];
 
             chainingTrigger = true;
         } else {
-            //EQUALS
             const equalsId = equalButton.id;
             console.log(equalsId);
             operate(userInput, operationInput, temp);
             screenTrigger = true;
             equalsTrigger = true;
 
-            //END EQUALS
             const operationId = operation.id;
             console.log(operationId); 
             operationInput= operationId;
 
 
             temp = userInput;   
-            //console.log('line 142 triggering');
             userInput = [0];
         }
     }
@@ -212,12 +200,8 @@ negativeToggleButton.addEventListener('click', () => {
         let positiveNumber = Math.abs(negativeNumber);
         userInput[0] = positiveNumber;
         updateDisplayText(userInput);
-        
 
     } else if(userInput[0] === '-'){
-        console.log('Line 204 userInput: ' + userInput)
-        console.log('Line 205 temp: ') + temp;
-    
         if (userInput[1] === '.') {
             userInput.shift('-');
             userInput.unshift('0');
@@ -233,9 +217,6 @@ negativeToggleButton.addEventListener('click', () => {
     }
     
     else{
-       // console.log('Line 209 userInput: ' + userInput)
-       // console.log('Line 210 temp: ') + temp;
-
         userInput.unshift('-') 
         updateDisplayText(userInput.join(''));
     } 
