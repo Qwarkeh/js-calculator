@@ -1,4 +1,3 @@
-//test area
 let userInput = [0];
 let operationInput = '';
 let temp = [0];
@@ -112,7 +111,6 @@ operationButtons.forEach(operation => operation.addEventListener('click', () => 
     } else {
         if (chainingTrigger === false) {
             const operationId = operation.id;
-            console.log(operationId); 
             operationInput= operationId;
 
             temp = userInput;   
@@ -121,15 +119,12 @@ operationButtons.forEach(operation => operation.addEventListener('click', () => 
             chainingTrigger = true;
         } else {
             const equalsId = equalButton.id;
-            console.log(equalsId);
             operate(userInput, operationInput, temp);
             screenTrigger = true;
             equalsTrigger = true;
 
             const operationId = operation.id;
-            console.log(operationId); 
             operationInput= operationId;
-
 
             temp = userInput;   
             userInput = [0];
@@ -143,7 +138,6 @@ operationButtons.forEach(operation => operation.addEventListener('click', () => 
 const allClearButton = document.querySelector('#AC');
 allClearButton.addEventListener('click', () => {
     const allClearId = allClearButton.id;
-    console.log(allClearId);
     resetValues();
 
     chainingTrigger = false;
@@ -179,7 +173,6 @@ equalButton.addEventListener('click', () => {
         return;
     } else {
         const equalsId = equalButton.id;
-        console.log(equalsId);
 
         operate(userInput, operationInput, temp);
 
@@ -194,14 +187,14 @@ const negativeToggleButton = document.querySelector('#negative');
 negativeToggleButton.addEventListener('click', () => {
     if (userInput[0] === 0){
         return;
-        
-    } else if (userInput[0] < 0) {
+    }
+    else if (userInput[0] < 0) {
         let negativeNumber = userInput[0];
         let positiveNumber = Math.abs(negativeNumber);
         userInput[0] = positiveNumber;
         updateDisplayText(userInput);
-
-    } else if(userInput[0] === '-'){
+    }
+    else if(userInput[0] === '-'){
         if (userInput[1] === '.') {
             userInput.shift('-');
             userInput.unshift('0');
@@ -209,13 +202,12 @@ negativeToggleButton.addEventListener('click', () => {
             userInput.shift('-');
         }
         updateDisplayText(userInput.join(''));
-
-    } else if (userInput[0] === '.') {
+    }
+    else if (userInput[0] === '.') {
         userInput.unshift('0');
         userInput.unshift('-')
         updateDisplayText(userInput.join(''));
     }
-    
     else{
         userInput.unshift('-') 
         updateDisplayText(userInput.join(''));
